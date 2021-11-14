@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoSuchElementException
 import time
 import datetime
 import winsound
@@ -35,17 +36,35 @@ for x  in range(90):
     soup = BeautifulSoup(html, "html.parser")
     
     attr = soup.find('a', {'class':"natural"})
-    if(attr is not None):
+
+    link = driver.find_element_by_link_text('Reservar cita de Visado')
+    
+    if(link is not None):
+        
         print("encontrado")
+        link.click()
+        print("clickeado")
+        time.sleep(5) 
+        driver.switch_to.window(driver.window_handles[1])
+
+        driver.find_element_by_css_selector('#idCaptchaButton').click()
+        print("clickead 2do boton")
+        time.sleep(300)
+        ##idDivNotAvailableSlotsTextTop
+        # driver.
+        # driver.findE
+        attr = driver.find_element_by_id('idDivNotAvailableSlotsTextTop')
+        print("******************************************************************************************************************************************")
         print(attr)
-        listAttr= ((str)(attr)).split("\"")
-        if(listAttr.__len__()>3):
-            url2= listAttr[3]
-            print("entrando a url:")
-            print(url2)
-            driver.get(url2)
-            print("cargada url2")
-            time.sleep(100)
+#No hay horas disponibles. Inténtelo de nuevo mañana.
+        # listAttr= ((str)(attr)).split("\"")
+        # if(listAttr.__len__()>3):
+        #     url2= listAttr[3]
+        #     print("entrando a url:")
+        #     print(url2)
+        #     driver.get(url2)
+        #     print("cargada url2")
+        #     time.sleep(100)
     else:
         print("NADA")
    # f = open("Resultado.txt", "a")
